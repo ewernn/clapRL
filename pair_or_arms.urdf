@@ -1,0 +1,215 @@
+<?xml version="1.0"?>
+
+<robot name="pair_of_arms">
+
+    <link name="base_link">
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="10.0"/>
+        <inertia ixx="1" iyy="1" izz="1" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+        <box size="0.5 0.1 0.3"/>
+        </geometry>
+        <material name="blue">
+        <color rgba="0 0 1 1"/>
+        </material>
+    </visual>
+    <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+        <box size="0.5 0.1 0.3"/>
+        </geometry>
+    </collision>
+    </link>
+
+
+    <!-- Left Shoulder Joint -->
+    <joint name="left_shoulder_joint" type="revolute">
+        <parent link="base_link"/>
+        <child link="left_upper_arm"/>
+        <origin xyz="-0.25 0 0" rpy="0.8 0 0"/> <!-- Offset the shoulder outward from the center line -->
+        <axis xyz="0 0 1"/>
+        <limit lower="-3.14" upper="3.14" effort="100.0" velocity="0.5"/>
+    </joint>
+
+    <!-- Right Shoulder Joint -->
+    <joint name="right_shoulder_joint" type="revolute">
+        <parent link="base_link"/>
+        <child link="right_upper_arm"/>
+        <origin xyz="0.25 0 0" rpy="0.8 0 0"/> <!-- Offset the shoulder outward from the center line -->
+        <axis xyz="0 0 1"/>
+        <limit lower="-3.14" upper="3.14" effort="100.0" velocity="0.5"/>
+    </joint>
+
+
+    <!-- Left Upper Arm -->
+    <link name="left_upper_arm">
+        <inertial>
+            <origin xyz="0 0 -0.2" rpy="0 0 0"/> <!-- Offset to center the cylinder along the Z-axis -->
+            <mass value="2.0"/>
+            <inertia ixx="0.02" iyy="0.02" izz="0.02" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 -0.2" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.04" length="0.4"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 -0.2" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.04" length="0.4"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- Right Upper Arm -->
+    <link name="right_upper_arm">
+        <inertial>
+            <origin xyz="0 0 -0.2" rpy="0 0 0"/> <!-- Offset to center the cylinder along the Z-axis -->
+            <mass value="2.0"/>
+            <inertia ixx="0.02" iyy="0.02" izz="0.02" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 -0.2" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.04" length="0.4"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 -0.2" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.04" length="0.4"/>
+            </geometry>
+        </collision>
+    </link>
+
+
+    <!-- Left Elbow Joint -->
+    <joint name="left_elbow_joint" type="revolute">
+    <parent link="left_upper_arm"/>
+    <child link="left_forearm"/> <!-- Forearm link defined in subsequent steps -->
+    <origin xyz="0 0 -0.4" rpy="2.2 0 0"/> <!-- At the end of the upper arm -->
+    <axis xyz="0 1 0"/> <!-- Rotate around the Y-axis -->
+    <limit lower="0" upper="3.14" effort="100.0" velocity="1.0"/>
+    </joint>
+
+    <!-- Right Elbow Joint -->
+    <!-- Duplicate of left_elbow_joint with names and references adjusted for the right arm -->
+    <joint name="right_elbow_joint" type="revolute">
+    <parent link="right_upper_arm"/>
+    <child link="right_forearm"/> <!-- Forearm link defined in subsequent steps -->
+    <origin xyz="0 0 -0.4" rpy="2.2 0 0"/> <!-- At the end of the upper arm -->
+    <axis xyz="0 1 0"/> <!-- Rotate around the Y-axis -->
+    <limit lower="0" upper="3.14" effort="100.0" velocity="1.0"/>
+    </joint>
+
+    <!-- Left Forearm Link -->
+    <link name="left_forearm">
+    <inertial>
+        <origin xyz="0 0 -0.15" rpy="0 0 0"/>
+        <mass value="1.5"/>
+        <inertia ixx="0.015" iyy="0.015" izz="0.015" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+        <origin xyz="0 0 -0.15" rpy="0 0 0"/>
+        <geometry>
+        <cylinder radius="0.03" length="0.4"/>
+        </geometry>
+    </visual>
+    <collision>
+        <origin xyz="0 0 -0.15" rpy="0 0 0"/>
+        <geometry>
+        <cylinder radius="0.03" length="0.4"/>
+        </geometry>
+    </collision>
+    </link>
+
+    <!-- Right Forearm Link -->
+    <!-- Similar to left_forearm but mirrored for the right side -->
+    <link name="right_forearm">
+    <inertial>
+        <origin xyz="0 0 -0.15" rpy="0 0 0"/>
+        <mass value="1.5"/>
+        <inertia ixx="0.015" iyy="0.015" izz="0.015" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+        <origin xyz="0 0 -0.15" rpy="0 0 0"/>
+        <geometry>
+        <cylinder radius="0.03" length="0.3"/>
+        </geometry>
+    </visual>
+    <collision>
+        <origin xyz="0 0 -0.15" rpy="0 0 0"/>
+        <geometry>
+        <cylinder radius="0.03" length="0.3"/>
+        </geometry>
+    </collision>
+    </link>
+
+
+    <!-- Left Wrist Joint -->
+    <joint name="left_wrist_joint" type="continuous">
+    <parent link="left_forearm"/>
+    <child link="left_hand"/> <!-- Hand link defined in the next step -->
+    <origin xyz="0 0 -0.3" rpy="0 0 0"/> <!-- At the end of the forearm -->
+    <axis xyz="0 0 1"/> <!-- Rotate around the Z-axis -->
+    </joint>
+
+    <!-- Right Wrist Joint -->
+    <!-- Similar to left_wrist_joint but for the right forearm to right hand connection -->
+    <joint name="right_wrist_joint" type="continuous">
+    <parent link="right_forearm"/>
+    <child link="right_hand"/> <!-- Hand link defined in the next step -->
+    <origin xyz="0 0 -0.3" rpy="0 0 0"/> <!-- At the end of the forearm -->
+    <axis xyz="0 0 1"/> <!-- Rotate around the Z-axis -->
+    </joint>
+
+
+    <!-- Left Hand Link -->
+    <link name="left_hand">
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.5"/>
+        <inertia ixx="0.005" iyy="0.005" izz="0.005" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+        <box size="0.2 0.1 0.03"/>
+        </geometry>
+    </visual>
+    <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+        <box size="0.2 0.1 0.03"/>
+        </geometry>
+    </collision>
+    </link>
+
+    <!-- Right Hand Link -->
+    <!-- Similar to left_hand but mirrored for the right side -->
+    <link name="right_hand">
+    <inertial>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <mass value="0.5"/>
+        <inertia ixx="0.005" iyy="0.005" izz="0.005" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+    <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+        <box size="0.2 0.1 0.03"/>
+        </geometry>
+    </visual>
+    <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+        <box size="0.2 0.1 0.03"/>
+        </geometry>
+    </collision>
+    </link>
+
+</robot>
