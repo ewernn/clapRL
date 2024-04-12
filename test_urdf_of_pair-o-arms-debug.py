@@ -18,7 +18,7 @@ p.connect(p.GUI)
 p.setGravity(0, 0, -9.81)
 
 # Load the URDF. Replace the path with your URDF file name:
-robot = p.loadURDF("/Users/ewern/Desktop/code/PyBullet/pair_or_arms.urdf", useFixedBase=True)
+robot = p.loadURDF("/Users/ewern/Desktop/code/PyBullet/pair_of_arms.urdf", useFixedBase=True)
 
 # Find the number of joints to identify the wrists
 num_joints = p.getNumJoints(robot)

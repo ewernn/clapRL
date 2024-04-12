@@ -26,21 +26,148 @@
     </link>
 
 
-    <!-- Left Shoulder Joint -->
-    <joint name="left_shoulder_joint" type="revolute">
+
+<!-- shoulder 0-mass links to turn 3 revolute into a spherical -->
+    <link name="left_shoulder_pitch_link">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="0.001"/>
+            <inertia ixx="0.0001" iyy="0.0001" izz="0.0001" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="0.01"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="0.01"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- Left Shoulder Roll Link -->
+    <link name="left_shoulder_roll_link">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="0.001"/>
+            <inertia ixx="0.0001" iyy="0.0001" izz="0.0001" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="0.01"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="0.01"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- Right Shoulder Pitch Link -->
+    <link name="right_shoulder_pitch_link">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="0.001"/>
+            <inertia ixx="0.0001" iyy="0.0001" izz="0.0001" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="0.01"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="0.01"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <!-- Right Shoulder Roll Link -->
+    <link name="right_shoulder_roll_link">
+        <inertial>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <mass value="0.001"/>
+            <inertia ixx="0.0001" iyy="0.0001" izz="0.0001" ixy="0" ixz="0" iyz="0"/>
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="0.01"/>
+            </geometry>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <sphere radius="0.01"/>
+            </geometry>
+        </collision>
+    </link>
+
+
+
+
+
+
+
+    <!-- Left Shoulder Yaw (existing joint) -->
+    <joint name="left_shoulder_yaw" type="revolute">
         <parent link="base_link"/>
-        <child link="left_upper_arm"/>
-        <origin xyz="-0.25 0 0" rpy="0.8 0 0"/> <!-- Offset the shoulder outward from the center line -->
+        <child link="left_shoulder_pitch_link"/> <!-- Intermediate link for pitch joint -->
+        <origin xyz="-0.25 0 0" rpy="0.8 0 0"/>
         <axis xyz="0 0 1"/>
         <limit lower="-3.14" upper="3.14" effort="100.0" velocity="0.5"/>
     </joint>
 
-    <!-- Right Shoulder Joint -->
-    <joint name="right_shoulder_joint" type="revolute">
+    <!-- Left Shoulder Pitch -->
+    <joint name="left_shoulder_pitch" type="revolute">
+        <parent link="left_shoulder_pitch_link"/>
+        <child link="left_shoulder_roll_link"/> <!-- Intermediate link for roll joint -->
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-1.57" upper="1.57" effort="100.0" velocity="0.5"/>
+    </joint>
+
+    <!-- Left Shoulder Roll -->
+    <joint name="left_shoulder_roll" type="revolute">
+        <parent link="left_shoulder_roll_link"/>
+        <child link="left_upper_arm"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
+        <limit lower="-3.14" upper="3.14" effort="100.0" velocity="0.5"/>
+    </joint>
+
+    <!-- Right Shoulder Yaw (existing joint) -->
+    <joint name="right_shoulder_yaw" type="revolute">
         <parent link="base_link"/>
-        <child link="right_upper_arm"/>
-        <origin xyz="0.25 0 0" rpy="0.8 0 0"/> <!-- Offset the shoulder outward from the center line -->
+        <child link="right_shoulder_pitch_link"/> <!-- Intermediate link for pitch joint -->
+        <origin xyz="0.25 0 0" rpy="0.8 0 0"/>
         <axis xyz="0 0 1"/>
+        <limit lower="-3.14" upper="3.14" effort="100.0" velocity="0.5"/>
+    </joint>
+
+    <!-- Right Shoulder Pitch -->
+    <joint name="right_shoulder_pitch" type="revolute">
+        <parent link="right_shoulder_pitch_link"/>
+        <child link="right_shoulder_roll_link"/> <!-- Intermediate link for roll joint -->
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="0 1 0"/>
+        <limit lower="-1.57" upper="1.57" effort="100.0" velocity="0.5"/>
+    </joint>
+
+    <!-- Right Shoulder Roll -->
+    <joint name="right_shoulder_roll" type="revolute">
+        <parent link="right_shoulder_roll_link"/>
+        <child link="right_upper_arm"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <axis xyz="1 0 0"/>
         <limit lower="-3.14" upper="3.14" effort="100.0" velocity="0.5"/>
     </joint>
 
